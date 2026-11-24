@@ -11,8 +11,19 @@ RIGHT = 0
 class Snake:
     def __init__(self):
         self.segments = []
+        self.head = None
+        self.build_snake()
+
+    def build_snake(self):
         self.create_snake()
         self.head = self.segments[0]
+
+    def reset(self):
+        for segment in self.segments:
+            segment.hideturtle()
+
+        self.segments.clear()
+        self.build_snake()
 
     def create_snake(self):
         for position in START_POS:
@@ -51,3 +62,5 @@ class Snake:
     def right(self):
         if self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
+
+
