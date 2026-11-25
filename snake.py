@@ -19,6 +19,9 @@ class Snake:
         self.head = self.segments[0]
 
     def reset(self):
+        # self.segments.clear()
+        # self.create_snake()
+        # self.head = self.segments[0]
         for segment in self.segments:
             segment.hideturtle()
 
