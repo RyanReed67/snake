@@ -16,6 +16,7 @@ scoreboard = Scoreboard()
 class Controls(Turtle):
     def __init__(self):
         super().__init__()
+        self.hideturtle()
 
     @staticmethod
     def restart():
