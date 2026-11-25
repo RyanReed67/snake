@@ -10,23 +10,36 @@ def restart_game():
         controls.restart()
         game_is_on = True
 
+
+def end_game():
+    global game_is_on
+    game_is_on = False
+    scoreboard.reset_board()
+    scoreboard.game_over()
+
+
 controls = Controls()
 
-
 controls.screen.listen()
-# arrow keys
+
+# Arrow keys
 controls.set_keys("Up", "Down", "Left", "Right")
-# wsad keys
+
+# WASD keys
 controls.set_keys("w", "s", "a", "d")
+
 controls.screen.onkey(restart_game, "space")
 
 game_is_on = True
+
 try:
     while True:
         controls.screen.update()
         time.sleep(0.1)
+
         if not game_is_on:
             continue
+
         snake.move()
 
         # Detect collision with food
@@ -35,17 +48,20 @@ try:
             snake.extend()
             scoreboard.increase_score()
 
-        #   Detect collision with wall
-        if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
-            game_is_on = False
-            scoreboard.game_over()
+        # Detect collision with wall
+        if (snake.head.xcor() > 280 or
+                snake.head.xcor() < -280 or
+                snake.head.ycor() > 280 or
+                snake.head.ycor() < -280):
+            print("WALL")
+            end_game()
+            continue
 
         # Detect collision with tail
         for segment in snake.segments[1:]:
             if snake.head.distance(segment) < 10:
-                game_is_on = False
-                scoreboard.game_over()
+                end_game()
+                break
 
-except Terminator, TclError:
+except (Terminator, TclError):
     pass
-
